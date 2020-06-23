@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<style>
+    .itemDiv{
+        width: 19%;
+        display: inline-block;
+    }
+</style>
+<body>
+<br/>
+<div id="app">
+    <template>
+        <el-form>
+            <el-form-item label="用例总数" class = "itemDiv">
+                <el-input v-model="dataResult.desc.totalCase"></el-input>
+            </el-form-item>
+            <el-form-item label="总时长(ms)" class = "itemDiv">
+                <el-input v-model="dataResult.desc.totalTime"></el-input>
+            </el-form-item>
+            <el-form-item label="最大时长(ms)" class = "itemDiv">
+                <el-input v-model="dataResult.desc.maxTime"></el-input>
+            </el-form-item>
+            <el-form-item label="最大时长用例" class = "itemDiv">
+                <el-input v-model="dataResult.desc.maxTimeCase"></el-input>
+            </el-form-item>
+            <el-form-item label="最小时间(ms)" class = "itemDiv">
+                <el-input v-model="dataResult.desc.minTime"></el-input>
+            </el-form-item>
+            <el-form-item label="最小时长用例" class = "itemDiv">
+                <el-input v-model="dataResult.desc.minTimeCase"></el-input>
+            </el-form-item>
+            <el-form-item label="平均时长(ms)" class = "itemDiv">
+                <el-input v-model="dataResult.desc.aveTime"></el-input>
+            </el-form-item>
+            <el-form-item label="成功用例数" class = "itemDiv">
+                <el-input v-model="dataResult.desc.scCase"></el-input>
+            </el-form-item>
+            <el-form-item label="失败用例数" class = "itemDiv">
+                <el-input v-model="dataResult.desc.failCase"></el-input>
+            </el-form-item>
+            <el-form-item label="成功率(%)" class = "itemDiv">
+                <el-input v-model="dataResult.desc.scRate"></el-input>
+            </el-form-item>
+        </el-form>
+
+        <el-divider content-position="center">执行结果</el-divider>
+        <el-table
+                :data="dataResult.results"
+                stripe
+                style="width: 100%"
+                :cell-style="cellStyle">
+            <el-table-column
+                    prop="id"
+                    label="序号"
+                    align="center"
+                    width="70"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="clz"
+                    label="类"
+                    align="center"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="method"
+                    label="方法"
+                    align="center"
+            >
+            </el-table-column>
+            <el-table-column
+                                prop="desc"
+                                label="描述"
+                                align="center"
+                        >
+                        </el-table-column>
+            <el-table-column
+                    prop="paramters"
+                    label="参数"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="status"
+                    label="状态"
+                    align="center"
+                    :formatter="formatBoolean">
+            </el-table-column>
+            <el-table-column
+                    prop="ms"
+                    label="耗时（毫秒）"
+                    align="center">
+            </el-table-column>
+        </el-table>
+    </template>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                // dataResult: {
+                //     results: [{
+                //         clz: "1",
+                //         method: "2",
+                //         paramter: "3",
+                //         status: true,
+                //         ms: "4"
+                //
+                //     }],
+                //     desc: {
+                //         totalCase: "10",
+                //         totalTime: "11",
+                //         maxTime: "12",
+                //         maxTimeCase: "13",
+                //         minTime: "14",
+                //         minTimeCase: "15",
+                //         avaTime: "16",
+                //         scCase: "17",
+                //         failCase: "18",
+                //         scRate: "19"
+                //     },
+                //     title:"数据模板"
+                // }
+                dataResult:${dataResult}
+
+            }
+        },
+        methods: {
+            cellStyle(row, column, rowIndex, columnIndex) {
+                if (row.column.label == "状态" ) {
+                    if(row.row.status){
+                        return "background:#abc88b";
+                    }else {
+                        return "background:#FF747B";
+                    }
+                }
+            },
+            formatBoolean: function (row, column, cellValue) {
+                var ret = ''  //你想在页面展示的值
+                if (cellValue) {
+                    ret = "正常"  //根据自己的需求设定
+                } else {
+                    ret = "错误"
+                }
+                return ret;
+            },
+        },
+        mounted (){
+            document.getElementsByTagName("title")[0].innerText = this.dataResult.title;
+        }
+    })
+</script>
+</html>
